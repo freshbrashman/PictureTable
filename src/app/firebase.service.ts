@@ -47,6 +47,9 @@ export class FirebaseService {
 
         this.messagesRef = this.database.ref('messages');
         
+        // auth
+        const provider = new auth.GoogleAuthProvider();
+        this.auth.signInWithPopup(provider);
     }
 
   saveMessage(message: string) {
