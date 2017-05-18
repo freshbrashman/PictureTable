@@ -1,5 +1,5 @@
 //ｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰ
-// 通信処理
+// 通信処理   
 //ｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰ
 import {Injectable} from "@angular/core";
 import "rxjs/add/operator/map";
