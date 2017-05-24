@@ -52,6 +52,13 @@ export class FirebaseService {
         this.auth.signInWithPopup(provider);
     }
 
+  saveImage(file:File) {
+    var storageRef = this.storage.ref().child(file.name);
+    storageRef.put(file).then(function(snapshot){
+      console.log('Uploaded a blob or file!');
+    });
+  }
+
   saveMessage(message: string) {
     if (message) {
       const currentUser = this.auth.currentUser;

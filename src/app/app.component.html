@@ -1,3 +1,11 @@
-<h1>
-  {{title}}
-</h1>
+<table>
+  <tr>
+    <td>
+      <input type="file" accept="image/*,capture=camera" (change)="onSelectImageFile($event)" />
+    </td>
+    <td>
+      <p>概要<input type="text" [(ngModel)]="summary" /></p>
+      <p>説明<input type="text" [(ngModel)]="description" /></p>
+    </td>
+  </tr>
+</table>
