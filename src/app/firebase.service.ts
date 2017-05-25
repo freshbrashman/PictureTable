@@ -68,7 +68,7 @@ export class FirebaseService {
           name: currentUser.displayName,
           text: message,
           photoUrl: currentUser.photoURL || '/images/profile_placeholder.png'
-        }).then(() => {
+        }).then((snapshot:database.DataSnapshot) => {
           this.informStableSubject$.next(true);
         }).catch((error) => {
           console.error('Error writing new message to Firebase Database', error);

@@ -11,7 +11,6 @@ export class AppComponent {
   firebaseService: FirebaseService;
 
   constructor(firebaseService: FirebaseService) {
-    firebaseService.saveMessage("abcde");
     this.firebaseService = firebaseService;
   }
 
