@@ -1,5 +1,5 @@
 //ｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰ
-// 通信処理   
+// 通信処理
 //ｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰｰ
 import {Injectable} from "@angular/core";
 import "rxjs/add/operator/map";
@@ -51,6 +51,13 @@ export class FirebaseService {
         const provider = new auth.GoogleAuthProvider();
         this.auth.signInWithPopup(provider);
     }
+
+  saveImage(file:File) {
+    var storageRef = this.storage.ref().child(file.name);
+    storageRef.put(file).then(function(snapshot){
+      console.log('Uploaded a blob or file!');
+    });
+  }
 
   saveMessage(message: string) {
     if (message) {
