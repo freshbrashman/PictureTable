@@ -5,6 +5,7 @@ import {Injectable} from "@angular/core";
 import "rxjs/add/operator/map";
 import { Observable, Subject, BehaviorSubject, ReplaySubject } from 'rxjs/Rx';
 import {initializeApp, auth, database, storage, User } from 'firebase';
+import { UUID } from 'angular2-uuid';
 
 const config = {
     apiKey: "AIzaSyCf6FraRT1wqxHu4mh3bwS-ba0fK497MPk",
@@ -21,6 +22,7 @@ export class FirebaseService {
     private database: database.Database;
     private storage: storage.Storage;
     private messagesRef: database.Reference;
+    private picturesRef: database.Reference;
     private informStableSubject$: Subject<boolean>;
     private authSubject$: Subject<firebase.User | null>;
     private currentUser: User;
@@ -46,6 +48,7 @@ export class FirebaseService {
         });
 
         this.messagesRef = this.database.ref('messages');
+        this.picturesRef = this.database.ref('pictures');
         
         // auth
         const provider = new auth.GoogleAuthProvider();
@@ -53,9 +56,21 @@ export class FirebaseService {
     }
 
   saveImage(file:File) {
-    var storageRef = this.storage.ref().child(file.name);
+    let uuid = UUID.UUID();
+    var storageRef = this.storage.ref().child(uuid);
+    var picturesRef = this.picturesRef;
     storageRef.put(file).then(function(snapshot){
       console.log('Uploaded a blob or file!');
+      picturesRef.push({
+        id: uuid,
+        name: file.name,
+        size: file.size,
+        lastModifiedDate: file.lastModifiedDate,
+      }).then((snapshot:database.DataSnapshot) => {
+        console.info("success writing to database");
+      }).catch((error) => {
+        console.error('Error writing new file data to Firebase Database', error);
+      });
     });
   }
 
