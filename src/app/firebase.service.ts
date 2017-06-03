@@ -42,6 +42,7 @@ export class FirebaseService {
         if (user) { // User is signed in!
             this.authSubject$.next(user);
             this.saveMessage('xxxxxxxxxxx');
+            this.listData();
         } else { // User is signed out!
             this.authSubject$.next(null);
         }
@@ -72,6 +73,13 @@ export class FirebaseService {
         console.error('Error writing new file data to Firebase Database', error);
       });
     });
+  }
+
+  listData() {
+    var picturesRef = this.picturesRef;
+    picturesRef.on('value', function(snapshot) {
+      console.info(snapshot.val());
+    });    
   }
 
   saveMessage(message: string) {
