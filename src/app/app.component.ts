@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {FirebaseService} from './firebase.service';
+import {FirebaseService, PictureRecord} from './firebase.service';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +12,10 @@ export class AppComponent {
 
   constructor(firebaseService: FirebaseService) {
     this.firebaseService = firebaseService;
+  }
+
+  getPictureRecords(): PictureRecord[] {
+    return this.firebaseService.getPictureRecords();
   }
 
   onSelectImageFile(event : any) {

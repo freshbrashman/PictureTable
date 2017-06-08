@@ -1,11 +1,12 @@
 <table>
-  <tr>
+  <tr
+   *ngFor="let pictureRecord of getPictureRecords(); let i = index; trackBy:trackByFn">
     <td>
       <input type="file" accept="image/*,capture=camera" (change)="onSelectImageFile($event)" />
     </td>
     <td>
-      <p>概要<input type="text" [(ngModel)]="summary" /></p>
-      <p>説明<input type="text" [(ngModel)]="description" /></p>
+      <p>概要<input type="text" [(ngModel)]="pictureRecord[i].summary" /></p>
+      <p>説明<input type="text" [(ngModel)]="pictureRecord[i].description" /></p>
     </td>
   </tr>
 </table>

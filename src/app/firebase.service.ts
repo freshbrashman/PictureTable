@@ -16,6 +16,15 @@ const config = {
     messagingSenderId: "604840872764"
 };
 
+export interface PictureRecord {
+    id: string;
+    name: string;
+    size: string;
+    lastModifiedDate: any;
+    summary: string;
+    description: string;
+};
+
 @Injectable()
 export class FirebaseService {
     private auth: auth.Auth;
@@ -26,6 +35,11 @@ export class FirebaseService {
     private informStableSubject$: Subject<boolean>;
     private authSubject$: Subject<firebase.User | null>;
     private currentUser: User;
+    private pictureRecords: PictureRecord[];
+
+    getPictureRecords(): PictureRecord[] {
+      return this.pictureRecords;
+    }
 
     constructor() {
         initializeApp(config);
@@ -42,7 +56,7 @@ export class FirebaseService {
         if (user) { // User is signed in!
             this.authSubject$.next(user);
             this.saveMessage('xxxxxxxxxxx');
-            this.listData();
+            this.initData();
         } else { // User is signed out!
             this.authSubject$.next(null);
         }
@@ -67,6 +81,8 @@ export class FirebaseService {
         name: file.name,
         size: file.size,
         lastModifiedDate: file.lastModifiedDate,
+        summary: 'サマリ',
+        description: '詳細',
       }).then((snapshot:database.DataSnapshot) => {
         console.info("success writing to database");
       }).catch((error) => {
@@ -75,11 +91,16 @@ export class FirebaseService {
     });
   }
 
-  listData() {
-    var picturesRef = this.picturesRef;
-    picturesRef.on('value', function(snapshot) {
-      console.info(snapshot.val());
-    });    
+  initData() {
+    this.pictureRecords = [];
+    let picturesRef = this.picturesRef;
+    let pictureRecords = this.pictureRecords;
+    picturesRef.once('value').then(function(snapshot) {
+      for(let a in snapshot.val()) {
+        console.info(a);
+        pictureRecords.push(snapshot.val()[a]);
+      }
+    });
   }
 
   saveMessage(message: string) {
